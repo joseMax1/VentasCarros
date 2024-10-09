@@ -4,6 +4,7 @@
           menú interactivo en consola. 
           Está diseñado para permitir la administración de clientes, empleados, vehículos y 
           ventas, brindando funcionalidades específicas para vendedores y gerentes.
+          
 
                                                  Estructura del Sistema
                                                  
@@ -12,7 +13,8 @@
 
           Cliente: Registra y actualiza la información de los clientes.
 
-          Vehículo: Gestiona el inventario de vehículos, su estado (vendido o disponible) y la disponibilidad.
+          Vehículo: Gestiona el inventario de vehículos, su estado (vendido o disponible) y la 
+          disponibilidad.
 
           Venta: Registra y finaliza ventas realizadas a clientes.
 

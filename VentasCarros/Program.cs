@@ -1,4 +1,8 @@
-﻿using System;
+﻿// MAXIMILIANO JOSE DE LEON CERA
+// Etapa 3 - Jerarquía de clases y métodos
+// GRUPO 213023_30
+
+using System;
 using System.Collections.Generic;
 
 

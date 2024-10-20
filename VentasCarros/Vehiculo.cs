@@ -17,6 +17,10 @@ namespace VentasCarros
 
         public double PrecioVenta { get; set; }
 
+
+        public string Estado { get; set; }  // Estado del vehículo ("Disponible" o "Vendido")
+
+
         public List<string> Historial { get; set; }  // aqui se encuentra el historial de cambios
 
 
@@ -27,6 +31,7 @@ namespace VentasCarros
             Modelo=modelo;
             Año= año;
             PrecioVenta=precioVenta;
+            Estado = "Disponible";
             Historial = new List<string>();
             AgregarAlHistorial($"Vehículo agregado: {marca} {modelo}, Año: {año}, Precio: {precioVenta}");
 

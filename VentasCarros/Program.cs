@@ -12,27 +12,33 @@ namespace VentasCarros
             List<Vehiculo> vehiculos = new List<Vehiculo>();
             List<Cliente> clientes = new List<Cliente>();
             List<Empleado> empleados = new List<Empleado>();
+            List<Venta> ventas = new List<Venta>();  // Lista para registrar las ventas
+
+            // Crear algunos empleados iniciales
             {
-                new Vendedor("01", "Maximiliano", "Vendedor");
-                new Gerente("02", "jose", "Gerente");
+                empleados.Add(new Vendedor("01", "Maximiliano", "Vendedor"));
+                empleados.Add(new Gerente("02", "Jose", "Gerente"));
+
             };
 
             // Realizo un menu interativo donde se pueden realizar diferente acciones
 
             bool continuar = true;
-            while (continuar) {
+            while (continuar)
+            {
                 Console.WriteLine("Selecciona una opcion: \n");
                 Console.WriteLine("1. Agregar Vehiculo: \n");
                 Console.WriteLine("2. Actualizar Vehiculo: \n");
                 Console.WriteLine("3. Ver Historial de Vehiculo: \n");
                 Console.WriteLine("4. Agregar cliente: \n");
                 Console.WriteLine("5. Gestionar empleado: \n");
+                Console.WriteLine("6. Registrar venta de Vehículo: \n"); // nueva opcion para venta
                 Console.WriteLine("0. Salir: \n");
 
 
-                int opcion = int .Parse(Console.ReadLine());
-                switch (opcion) 
-                { 
+                int opcion = int.Parse(Console.ReadLine());
+                switch (opcion)
+                {
                     case 1:
                         AgregarVehiculo(vehiculos);
                         break;
@@ -54,6 +60,11 @@ namespace VentasCarros
                         GestionarEmpleados(empleados);
                         break;
 
+                    case 6:
+                        RegistrarVenta(ventas, vehiculos, clientes, empleados);  // Llamar función de ventas
+                        break;
+
+
                     case 0:
                         continuar = false;
                         break;
@@ -69,7 +80,7 @@ namespace VentasCarros
         }
 
 
-        static void AgregarVehiculo(List<Vehiculo> vehiculos) 
+        static void AgregarVehiculo(List<Vehiculo> vehiculos)
         {
 
             Console.WriteLine("Agregar Vehiculo");
@@ -157,6 +168,61 @@ namespace VentasCarros
             }
         }
 
+        static void RegistrarVenta(List<Venta> ventas, List<Vehiculo> vehiculos, List<Cliente> clientes, List<Empleado> empleados)
+        {
+            {
+                Console.WriteLine("Registrar Venta");
+
+                // Buscar el vehículo
+                Console.Write("Ingrese el número de serie del vehículo: ");
+                string numeroSerie = Console.ReadLine();
+                Vehiculo vehiculo = vehiculos.Find(v => v.NumeroSerie == numeroSerie);
+                if (vehiculo == null || vehiculo.Estado != "Disponible")
+                {
+                    Console.WriteLine("Vehículo no encontrado o no disponible.");
+                    return;
+                }
+
+                // Buscar el cliente
+                Console.Write("Ingrese ID del cliente: ");
+                string idCliente = Console.ReadLine();
+                Cliente cliente = clientes.Find(c => c.IdCliente == idCliente);
+                if (cliente == null)
+                {
+                    Console.WriteLine("Cliente no encontrado.");
+                    return;
+                }
+
+                // Buscar el empleado
+                Console.Write("Ingrese ID del empleado: ");
+                string idEmpleado = Console.ReadLine();
+                Empleado empleado = empleados.Find(e => e.IdEmpleado == idEmpleado);
+                if (empleado == null)
+                {
+                    Console.WriteLine("Empleado no encontrado.");
+                    return;
+                }
+
+                // Generar un ID único para la venta
+                string idVenta = Guid.NewGuid().ToString(); // Esto genera un ID único y aleatorio
+
+                // Pedir el precio final de la venta
+                Console.Write("Ingrese el precio final de la venta: ");
+                double precioFinal = double.Parse(Console.ReadLine());
+
+                // Crear la venta con todos los parámetros necesarios
+                Venta nuevaVenta = new Venta(idVenta, vehiculo, cliente, empleado, precioFinal);
+                ventas.Add(nuevaVenta);
+
+                // Cambiar el estado del vehículo a vendido
+                vehiculo.Estado = "Vendido";
+                vehiculo.AgregarAlHistorial($"Vehículo vendido a {cliente.Nombre} por {empleado.Nombre} el {nuevaVenta.FechaVenta}");
+
+                Console.WriteLine("Venta registrada con éxito.");
+            }
+
+
+        }
+
     }
-    
 }
